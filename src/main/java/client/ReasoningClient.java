@@ -41,6 +41,8 @@ public class ReasoningClient {
 			OIE_FILE_PATH = args[0];
 			TOP_K_CANDIDATES = Integer.parseInt(args[1]);
 			DELIMITER = args[2];
+
+			logger.info("Reading OIE file from " + OIE_FILE_PATH);
 			InstanceMapper.readInputFile(TOP_K_CANDIDATES);
 		}
 	}

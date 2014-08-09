@@ -28,7 +28,7 @@ import dbConnectivity.DBWrapper;
 public class InstanceMapper {
 
 	// define Logger
-	static Logger logger = Logger.getLogger(DBWrapper.class.getName());
+	static Logger logger = Logger.getLogger(InstanceMapper.class.getName());
 
 	/**
 	 * 
