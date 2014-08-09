@@ -83,12 +83,12 @@ public class InstanceMapper {
 
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Problem wrriting out file: " + e.getMessage());
+			logger.error("Problem wrriting out file: " + e.getMessage());
 		} finally {
 			try {
 				writer.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage());
 			}
 		}
 
