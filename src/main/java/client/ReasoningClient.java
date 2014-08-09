@@ -3,11 +3,9 @@
  */
 package client;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
-import utils.FileUtil;
+import reasoning.mapping.InstanceMapper;
 
 /**
  * Client for initiating the pipeline
@@ -16,6 +14,8 @@ import utils.FileUtil;
  * 
  */
 public class ReasoningClient {
+	// define Logger
+	static Logger logger = Logger.getLogger(ReasoningClient.class.getName());
 
 	/**
 	 * 
@@ -24,8 +24,9 @@ public class ReasoningClient {
 
 	}
 
-	private static String OIE_FILE_PATH = null;
+	public static String OIE_FILE_PATH = null;
 	private static int TOP_K_CANDIDATES = 0;
+	public static String DELIMITER = null;
 
 	/**
 	 * @param args
@@ -33,36 +34,14 @@ public class ReasoningClient {
 
 	public static void main(String[] args) {
 
-		if (args.length < 2)
+		if (args.length < 3)
 			System.err
 					.println("Usage : java -jar Reason.jar <inputFilePath> <topK>");
 		else {
 			OIE_FILE_PATH = args[0];
 			TOP_K_CANDIDATES = Integer.parseInt(args[1]);
-			readInputFile();
-		}
-	}
-
-	/**
-	 * reads the input raw file
-	 * 
-	 * @throws FileNotFoundException
-	 */
-	private static void readInputFile() {
-		try {
-			ArrayList<ArrayList<String>> oieTriples = FileUtil
-					.genericFileReader(new FileInputStream(OIE_FILE_PATH), ";",
-							false);
-
-			for (ArrayList<String> line : oieTriples) {
-				for (String element : line) {
-					System.out.print(element + "\t");
-				}
-				System.out.print("\n");
-			}
-		} catch (FileNotFoundException e) {
-
-			e.printStackTrace();
+			DELIMITER = args[2];
+			InstanceMapper.readInputFile(TOP_K_CANDIDATES);
 		}
 	}
 
