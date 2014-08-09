@@ -19,3 +19,4 @@ Starting Point
 1. ReasoningClient under client is the starting point
 2. Supply the oie file of your choice (reverb or oie), followed by top-k candidates you want to fetch and the file delimiter
 3. A sample input (sample.input) can be found under resources.
+4. Use the shell script (processReverb.sh) under resources for parsing and cleansing the actual reverb file.
