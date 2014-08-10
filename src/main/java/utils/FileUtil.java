@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class to peform IO operations
@@ -123,6 +125,45 @@ public class FileUtil {
 			writer.flush();
 		}
 
+	}
+
+	/**
+	 * overloaded function
+	 * 
+	 * @param topkSubjects
+	 * @param oieProp
+	 * @param oieSubj
+	 * @param year
+	 * @param writer
+	 * @throws IOException
+	 */
+	public static void createOutput(List<String> topkSubjects, String oieProp,
+			String oieSubj, String year, BufferedWriter writer)
+			throws IOException {
+
+		// iterate the subj-object pairwise combinations
+		for (String candSubj : topkSubjects) {
+
+			writer.write(candSubj.split("\t")[0] + "\t" + oieProp + "\t"
+					+ oieSubj + "\t[" + year + ", " + year + "]\n");
+		}
+		// flush it out
+		writer.flush();
+	}
+
+	/**
+	 * return the year from an input string
+	 * 
+	 * @param oieInst
+	 * @return
+	 */
+	public static String getYear(final String oieInst) {
+		final Pattern p = Pattern.compile("(\\d{4})");
+		final Matcher m = p.matcher(oieInst);
+		if (m.find()) {
+			return m.group(0);
+		}
+		return "";
 	}
 
 }

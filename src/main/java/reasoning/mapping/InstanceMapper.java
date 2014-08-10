@@ -53,7 +53,9 @@ public class InstanceMapper {
 
 		BufferedWriter writer = null;
 
+		long cnt = 0;
 		try {
+			@SuppressWarnings("resource")
 			Scanner oieTriples = new Scanner(new FileInputStream(
 					ReasoningClient.OIE_FILE_PATH));
 
@@ -66,6 +68,10 @@ public class InstanceMapper {
 			// init DB
 			DBWrapper.init(Constants.GET_WIKI_LINKS_APRIORI_SQL);
 
+			logger.info("Writing output at   "
+					+ new File(ReasoningClient.OIE_FILE_PATH).getParent()
+					+ "/Reverb.annotated.temporal.out");
+
 			while (oieTriples.hasNextLine()) {
 				line = oieTriples.nextLine();
 				arr = line.split(ReasoningClient.DELIMITER);
@@ -73,15 +79,35 @@ public class InstanceMapper {
 				oieProp = arr[1];
 				oieObj = FileUtil.cleanse(arr[2]);
 
+				// get top-k candidates of the subject
 				topkSubjects = findTopKMatches(oieSub, TOP_K_CANDIDATES);
-				topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
 
-				FileUtil.createOutput(topkSubjects, oieProp, topkObjects,
-						writer);
+				// check if object is a time instance, if so write it out with
+				// year annotation
+				if (identifyTimeInstance(oieObj)) {
+
+					// write out the time annotated entry
+					FileUtil.createOutput(topkSubjects, oieProp, oieObj,
+							FileUtil.getYear(oieObj), writer);
+
+				} else {
+
+					// get the topk instances for oieObj
+					topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
+
+					// write out as it is
+					FileUtil.createOutput(topkSubjects, oieProp, topkObjects,
+							writer);
+				}
+
+				cnt++;
+
+				if (cnt > 10000 && cnt % 10000 == 0) {
+					logger.info("Completed processing of " + cnt + " lines..");
+				}
 			}
 		} catch (FileNotFoundException e) {
-
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (IOException e) {
 			logger.error("Problem wrriting out file: " + e.getMessage());
 		} finally {
@@ -91,6 +117,20 @@ public class InstanceMapper {
 				logger.error(e.getMessage());
 			}
 		}
+	}
+
+	/**
+	 * detect if the instance is an year TODO: include more sophisticated
+	 * patterns
+	 * 
+	 * @param arg
+	 * @return
+	 */
+	private static boolean identifyTimeInstance(String arg) {
+		boolean isTime = false;
+		if (arg.matches(".*\\d{4}+.*"))
+			isTime = true;
+		return isTime;
 
 	}
 
