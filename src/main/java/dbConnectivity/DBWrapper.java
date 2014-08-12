@@ -10,7 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -118,6 +120,9 @@ public class DBWrapper {
 		return results;
 	}
 
+	/**
+	 * shutting down all statements and connections
+	 */
 	public static void shutDown() {
 
 		if (pstmt != null) {
@@ -129,6 +134,33 @@ public class DBWrapper {
 
 		dbConnection.shutDown();
 
+	}
+
+	/**
+	 * grab the top-k reverb properties from DB
+	 * 
+	 * @param k
+	 * @return
+	 */
+	public static Map<String, String> fetchDistinctReverbProperties(int k) {
+		ResultSet rs = null;
+		Map<String, String> results = null;
+
+		try {
+
+			pstmt.setInt(1, k);
+			rs = pstmt.executeQuery();
+			results = new HashMap<String, String>();
+
+			while (rs.next()) {
+				results.put(rs.getString(1), "");
+			}
+
+		} catch (Exception e) {
+			logger.error(" exception while fetching " + " " + e.getMessage());
+		}
+
+		return results;
 	}
 
 	public static List<String> fetchTopReverbProperties(long topk) {

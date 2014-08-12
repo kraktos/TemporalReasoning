@@ -112,13 +112,14 @@ public class FileUtil {
 	 * @throws IOException
 	 */
 	public static void createOutput(List<String> topkSubjects, String oieProp,
-			List<String> topkObjects, BufferedWriter writer) throws IOException {
+			List<String> topkObjects, BufferedWriter writer, double confidence)
+			throws IOException {
 
 		// iterate the subj-object pairwise combinations
 		for (String candSubj : topkSubjects) {
 			for (String candObj : topkObjects) {
-				writer.write(candSubj.split("\t")[0] + "\t" + oieProp + "\t"
-						+ candObj.split("\t")[0] + "\n");
+				writer.write(confidence + "\t" + candSubj.split("\t")[0] + "\t"
+						+ oieProp + "\t" + candObj.split("\t")[0] + "\n");
 			}
 
 			// flush it out
@@ -135,17 +136,19 @@ public class FileUtil {
 	 * @param oieSubj
 	 * @param year
 	 * @param writer
+	 * @param confidence
 	 * @throws IOException
 	 */
 	public static void createOutput(List<String> topkSubjects, String oieProp,
-			String oieSubj, String year, BufferedWriter writer)
-			throws IOException {
+			String oieSubj, String year, BufferedWriter writer,
+			double confidence) throws IOException {
 
 		// iterate the subj-object pairwise combinations
 		for (String candSubj : topkSubjects) {
 
-			writer.write(candSubj.split("\t")[0] + "\t" + oieProp + "\t"
-					+ oieSubj + "\t[" + year + ", " + year + "]\n");
+			writer.write(confidence + "\t" + candSubj.split("\t")[0] + "\t"
+					+ oieProp + "\t" + oieSubj + "\t[" + year + ", " + year
+					+ "]\n");
 		}
 		// flush it out
 		writer.flush();

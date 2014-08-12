@@ -9,7 +9,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
@@ -27,8 +29,12 @@ import dbConnectivity.DBWrapper;
  */
 public class InstanceMapper {
 
+	private static final int TOPK_REV_PROPS = 500;
+
 	// define Logger
 	static Logger logger = Logger.getLogger(InstanceMapper.class.getName());
+
+	private static Map<String, String> temporalReverbProps = new HashMap<String, String>();
 
 	/**
 	 * 
@@ -39,14 +45,18 @@ public class InstanceMapper {
 	/**
 	 * reads the input raw file
 	 * 
+	 * @param topkRevbProps
+	 * 
 	 * @throws FileNotFoundException
 	 */
-	public static void readInputFile(int TOP_K_CANDIDATES) {
+	public static void readInputFile(int TOP_K_CANDIDATES,
+			Map<String, String> topkRevbProps) {
 		String line = null;
 		String[] arr = null;
 		String oieSub = null;
 		String oieProp = null;
 		String oieObj = null;
+		double confidence = 0;
 
 		List<String> topkSubjects = null;
 		List<String> topkObjects = null;
@@ -54,6 +64,7 @@ public class InstanceMapper {
 		BufferedWriter writer = null;
 
 		long cnt = 0;
+
 		try {
 			@SuppressWarnings("resource")
 			Scanner oieTriples = new Scanner(new FileInputStream(
@@ -65,12 +76,12 @@ public class InstanceMapper {
 					ReasoningClient.OIE_FILE_PATH).getParent()
 					+ "/Reverb.annotated.temporal.out"));
 
-			// init DB
-			DBWrapper.init(Constants.GET_WIKI_LINKS_APRIORI_SQL);
-
 			logger.info("Writing output at   "
 					+ new File(ReasoningClient.OIE_FILE_PATH).getParent()
 					+ "/Reverb.annotated.temporal.out");
+
+			// init DB
+			DBWrapper.init(Constants.GET_WIKI_LINKS_APRIORI_SQL);
 
 			while (oieTriples.hasNextLine()) {
 				line = oieTriples.nextLine();
@@ -78,32 +89,39 @@ public class InstanceMapper {
 				oieSub = FileUtil.cleanse(arr[0]);
 				oieProp = arr[1];
 				oieObj = FileUtil.cleanse(arr[2]);
+				confidence = Double.parseDouble(arr[3]);
 
-				// get top-k candidates of the subject
-				topkSubjects = findTopKMatches(oieSub, TOP_K_CANDIDATES);
+				// only if the reverb property is a top-k property
+				if (topkRevbProps.containsKey(oieProp)) {
+					// get top-k candidates of the subject
+					topkSubjects = findTopKMatches(oieSub, TOP_K_CANDIDATES);
+					// check if object is a time instance, if so write it out
+					// with year annotation
+					if (identifyTimeInstance(oieObj)) {
 
-				// check if object is a time instance, if so write it out with
-				// year annotation
-				if (identifyTimeInstance(oieObj)) {
+						// write out the time annotated entry
+						FileUtil.createOutput(topkSubjects, oieProp, oieObj,
+								FileUtil.getYear(oieObj), writer, confidence);
 
-					// write out the time annotated entry
-					FileUtil.createOutput(topkSubjects, oieProp, oieObj,
-							FileUtil.getYear(oieObj), writer);
+						// initially colelct properties with temporal info
+						temporalReverbProps.put(oieProp, "");
 
-				} else {
+					} else {
 
-					// get the topk instances for oieObj
-					topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
+						// get the topk instances for oieObj
+						topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
 
-					// write out as it is
-					FileUtil.createOutput(topkSubjects, oieProp, topkObjects,
-							writer);
-				}
+						// write out as it is
+						FileUtil.createOutput(topkSubjects, oieProp,
+								topkObjects, writer, confidence);
+					}
+					cnt++;
+					if (cnt > 10000 && cnt % 10000 == 0) {
+						logger.info("Completed processing of " + cnt
+								+ " lines..");
 
-				cnt++;
-
-				if (cnt > 10000 && cnt % 10000 == 0) {
-					logger.info("Completed processing of " + cnt + " lines..");
+						// logger.info(temporalProps.toString());
+					}
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -120,6 +138,30 @@ public class InstanceMapper {
 	}
 
 	/**
+	 * @return the temporalReverbProps
+	 */
+	public static Map<String, String> getTemporalReverbProps() {
+		return temporalReverbProps;
+	}
+
+	/**
+	 * get the list of top-k Reverb properties
+	 * 
+	 * @return List of properties
+	 */
+	public static Map<String, String> getTopkReverbProps() {
+
+		// init DB
+		DBWrapper.init(Constants.GET_DISTINCT_REVERB_PROPERTIES);
+
+		Map<String, String> results = DBWrapper
+				.fetchDistinctReverbProperties(TOPK_REV_PROPS);
+
+		return (results != null) ? results : new HashMap<String, String>();
+
+	}
+
+	/**
 	 * detect if the instance is an year TODO: include more sophisticated
 	 * patterns
 	 * 
@@ -131,7 +173,6 @@ public class InstanceMapper {
 		if (arg.matches(".*\\d{4}+.*"))
 			isTime = true;
 		return isTime;
-
 	}
 
 	/**
@@ -145,7 +186,6 @@ public class InstanceMapper {
 			int TOP_K_CANDIDATES) {
 		// get the top-k concepts, confidence pairs
 		return DBWrapper.fetchTopKLinksWikiPrepProb(oieInst, TOP_K_CANDIDATES);
-
 	}
 
 }
