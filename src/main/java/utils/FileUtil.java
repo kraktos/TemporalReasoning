@@ -155,6 +155,31 @@ public class FileUtil {
 	}
 
 	/**
+	 * overloaded function
+	 * 
+	 * @param topkSubjects
+	 * @param oieProp
+	 * @param oieSubj
+	 * @param year
+	 * @param writer
+	 * @param confidence
+	 * @throws IOException
+	 */
+	public static void createOutput(String oieSub, String oieProp,
+			List<String> topkObjects, String year, BufferedWriter writer,
+			double confidence) throws IOException {
+
+		// iterate the subj-object pairwise combinations
+		for (String candObj : topkObjects) {
+
+			writer.write(confidence + "\t" + oieSub + "\t" + oieProp + "\t"
+					+ candObj + "\t[" + year + ", " + year + "]\n");
+		}
+		// flush it out
+		writer.flush();
+	}
+
+	/**
 	 * return the year from an input string
 	 * 
 	 * @param oieInst
@@ -164,6 +189,9 @@ public class FileUtil {
 		final Pattern p = Pattern.compile("(\\d{4})");
 		final Matcher m = p.matcher(oieInst);
 		if (m.find()) {
+			// Pattern p2 = Pattern.compile("[0-9]{4} [a-zA-Z]*");
+			// Matcher m2 = p.matcher(oieInst);
+			// if (!m2.find())
 			return m.group(0);
 		}
 		return "";
