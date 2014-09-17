@@ -1,0 +1,17 @@
+T	was born on	birthDate
+T	was born in	birthDate
+T	died on	deathYear
+T	Died in	deathYear
+T	passed away on	deathDate
+T	dies in	deathDate
+T	passed away in	deathDate
+T	was opened in	openingYear
+T	opens in	openingYear
+T	will open in	openingYear
+T	opened in	openingYear
+T	opened on	openingYear	
+T	was founded in	foundingDate
+T	was established in	foundingDate
+NT	is a proud graduate of	almaMater
+NT	is a graduate of	almaMater
+NT	is a recent graduate of	almaMater

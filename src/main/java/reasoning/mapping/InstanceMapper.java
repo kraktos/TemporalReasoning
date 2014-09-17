@@ -79,11 +79,14 @@ public class InstanceMapper {
 			// read from..
 			writer = new BufferedWriter(new FileWriter(new File(
 					ReasoningClient.OIE_FILE_PATH).getParent()
-					+ "/Reverb.annotated.temporal.out"));
+					+ "/Reverb.annotated.temporal.top"
+					+ TOP_K_CANDIDATES
+					+ ".out"));
 
 			logger.info("Writing output at   "
 					+ new File(ReasoningClient.OIE_FILE_PATH).getParent()
-					+ "/Reverb.annotated.temporal.out");
+					+ "/Reverb.annotated.temporal.top" + TOP_K_CANDIDATES
+					+ ".out");
 
 			// init DB
 			DBWrapper.init(Constants.GET_WIKI_LINKS_APRIORI_SQL);
@@ -98,8 +101,11 @@ public class InstanceMapper {
 
 				cnt++;
 
+				String delimit;
 				// only if the reverb property is a top-k property
-				if (relevantReverbProperties.containsKey(oieProp)) {
+				// if its a temporal property
+				if (relevantReverbProperties.containsKey("T~" + oieProp)) {
+					delimit = "T~";
 
 					if (identifyTimeInstance(oieSub)
 							&& !identifyTimeInstance(oieObj)) {
@@ -108,9 +114,9 @@ public class InstanceMapper {
 						topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
 
 						// write out the time annotated entry
-						FileUtil.createOutput(oieSub, revProps.get(oieProp),
-								topkObjects, FileUtil.getYear(oieSub), writer,
-								confidence);
+						FileUtil.createOutput(oieSub,
+								revProps.get(delimit + oieProp), topkObjects,
+								FileUtil.getYear(oieSub), writer, confidence);
 
 					} else if (!identifyTimeInstance(oieSub)
 							&& identifyTimeInstance(oieObj)) {
@@ -120,7 +126,7 @@ public class InstanceMapper {
 
 						// write out the time annotated entry
 						FileUtil.createOutput(topkSubjects,
-								revProps.get(oieProp), oieObj,
+								revProps.get(delimit + oieProp), oieObj,
 								FileUtil.getYear(oieObj), writer, confidence);
 
 						// initially collEct properties with temporal info
@@ -128,6 +134,23 @@ public class InstanceMapper {
 						// temporalReverbProps.put(oieProp, "");
 
 					}
+				} else if (relevantReverbProperties
+						.containsKey("NT~" + oieProp)) {
+
+					if (!identifyTimeInstance(oieSub)
+							&& !identifyTimeInstance(oieObj)) {
+
+						delimit = "NT~";
+						// get top-k candidates of the subject
+						topkSubjects = findTopKMatches(oieSub, TOP_K_CANDIDATES);
+						// get top-k candidates of the subject
+						topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
+						// write out the time annotated entry
+						FileUtil.createOutput(topkSubjects,
+								revProps.get(delimit + oieProp), topkObjects,
+								writer, confidence);
+					}
+
 				}
 				if (cnt > 1000000 && cnt % 1000000 == 0) {
 					logger.info("Completed processing of " + cnt + " lines..");
@@ -153,6 +176,41 @@ public class InstanceMapper {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
+	// public static Map<String, String> loadProperties()
+	// throws FileNotFoundException {
+	//
+	// String[] arr = null;
+	// String line = null;
+	// String key = null;
+	//
+	// Scanner clusters = new Scanner(new FileInputStream(
+	// ReasoningClient.CLUSTERED_PROPERTIES_FILE_PATH));
+	//
+	// while (clusters.hasNextLine()) {
+	// line = clusters.nextLine();
+	// arr = line.split("\t");
+	// for (String prop : arr) {
+	// if (prop.indexOf(" ") == -1) {
+	// key = prop;
+	// break;
+	// }
+	// }
+	//
+	// for (String prop : arr) {
+	// if (prop.indexOf(" ") != -1)
+	// revProps.put(prop, (key == null) ? prop : key);
+	// }
+	// }
+	//
+	// return revProps;
+	// }
+
+	/**
+	 * load the clustered reverb properties in memory
+	 * 
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	public static Map<String, String> loadProperties()
 			throws FileNotFoundException {
 
@@ -166,19 +224,8 @@ public class InstanceMapper {
 		while (clusters.hasNextLine()) {
 			line = clusters.nextLine();
 			arr = line.split("\t");
-			for (String prop : arr) {
-				if (prop.indexOf(" ") == -1) {
-					key = prop;
-					break;
-				}
-			}
-
-			for (String prop : arr) {
-				if (prop.indexOf(" ") != -1)
-					revProps.put(prop, (key == null) ? prop : key);
-			}
+			revProps.put(arr[0] + "~" + arr[1], arr[2]);
 		}
-
 		return revProps;
 	}
 
