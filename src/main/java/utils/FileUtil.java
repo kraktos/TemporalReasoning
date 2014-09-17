@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,6 +20,8 @@ import java.util.regex.Pattern;
  * @author Arnab Dutta
  */
 public class FileUtil {
+
+	static DecimalFormat df = new DecimalFormat("#.######");
 
 	/**
 	 * generic filereader.. good for small files since it is loaded into memory
@@ -112,13 +115,17 @@ public class FileUtil {
 	 * @throws IOException
 	 */
 	public static void createOutput(List<String> topkSubjects, String oieProp,
-			List<String> topkObjects, BufferedWriter writer, double confidence)
-			throws IOException {
+			List<String> topkObjects, BufferedWriter writer, double confidence,
+			long cnt) throws IOException {
 
 		// iterate the subj-object pairwise combinations
 		for (String candSubj : topkSubjects) {
 			for (String candObj : topkObjects) {
-				writer.write(confidence + "\t" + candSubj.split("\t")[0] + "\t"
+				writer.write(cnt
+						+ "\t"
+						+ df.format(Double.valueOf(candSubj.split("\t")[1])
+								* Double.valueOf(candObj.split("\t")[1]))
+						+ "\t" + "\t" + candSubj.split("\t")[0] + "\t"
 						+ oieProp + "\t" + candObj.split("\t")[0] + "\n");
 			}
 
@@ -141,14 +148,15 @@ public class FileUtil {
 	 */
 	public static void createOutput(List<String> topkSubjects, String oieProp,
 			String oieSubj, String year, BufferedWriter writer,
-			double confidence) throws IOException {
+			double confidence, long cnt) throws IOException {
 
 		// iterate the subj-object pairwise combinations
 		for (String candSubj : topkSubjects) {
 
-			writer.write(confidence + "\t" + candSubj.split("\t")[0] + "\t"
-					+ oieProp + "\t" + oieSubj + "\t[" + year + ", " + year
-					+ "]\n");
+			writer.write(cnt + "\t"
+					+ df.format(Double.valueOf(candSubj.split("\t")[1])) + "\t"
+					+ candSubj.split("\t")[0] + "\t" + oieProp + "\t" + oieSubj
+					+ "\t[" + year + ", " + year + "]\n");
 		}
 		// flush it out
 		writer.flush();
@@ -163,17 +171,20 @@ public class FileUtil {
 	 * @param year
 	 * @param writer
 	 * @param confidence
+	 * @param cnt
 	 * @throws IOException
 	 */
 	public static void createOutput(String oieSub, String oieProp,
 			List<String> topkObjects, String year, BufferedWriter writer,
-			double confidence) throws IOException {
+			double confidence, long cnt) throws IOException {
 
 		// iterate the subj-object pairwise combinations
 		for (String candObj : topkObjects) {
 
-			writer.write(confidence + "\t" + oieSub + "\t" + oieProp + "\t"
-					+ candObj + "\t[" + year + ", " + year + "]\n");
+			writer.write(cnt + "\t"
+					+ df.format(Double.valueOf(candObj.split("\t")[1])) + "\t"
+					+ oieSub + "\t" + oieProp + "\t" + candObj.split("\t")[0]
+					+ "\t[" + year + ", " + year + "]\n");
 		}
 		// flush it out
 		writer.flush();

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,12 +64,15 @@ public class InstanceMapper {
 		String oieObj = null;
 		double confidence = 0;
 
+		Map<Long, String> DICTIONARY = new HashMap<Long, String>();
+
 		List<String> topkSubjects = null;
 		List<String> topkObjects = null;
 
 		BufferedWriter writer = null;
+		BufferedWriter dictWriter = null;
 
-		long cnt = 0;
+		long cnt = 1;
 
 		try {
 			@SuppressWarnings("resource")
@@ -83,12 +87,18 @@ public class InstanceMapper {
 					+ TOP_K_CANDIDATES
 					+ ".out"));
 
+			dictWriter = new BufferedWriter(new FileWriter(new File(
+					ReasoningClient.OIE_FILE_PATH).getParent()
+					+ "/Reverb.annotated.dictionary.top."
+					+ TOP_K_CANDIDATES
+					+ ".out"));
+
 			logger.info("Writing output at   "
 					+ new File(ReasoningClient.OIE_FILE_PATH).getParent()
 					+ "/Reverb.annotated.temporal.top" + TOP_K_CANDIDATES
 					+ ".out");
 
-			// init DB
+			// // init DB
 			DBWrapper.init(Constants.GET_WIKI_LINKS_APRIORI_SQL);
 
 			while (oieTriples.hasNextLine()) {
@@ -99,40 +109,58 @@ public class InstanceMapper {
 				oieObj = FileUtil.cleanse(arr[2]);
 				confidence = Double.parseDouble(arr[3]);
 
-				cnt++;
+				String delimit = null;
+				String value = oieSub + "\t" + oieProp + "\t" + oieObj + "\t"
+						+ confidence;
 
-				String delimit;
 				// only if the reverb property is a top-k property
 				// if its a temporal property
 				if (relevantReverbProperties.containsKey("T~" + oieProp)) {
-					delimit = "T~";
 
-					if (identifyTimeInstance(oieSub)
-							&& !identifyTimeInstance(oieObj)) {
+					// add the unique line to dictionary
+					if (!DICTIONARY.containsKey(cnt)) {
 
-						// get top-k candidates of the subject
-						topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
+						// set delimiter
+						delimit = "T~";
 
-						// write out the time annotated entry
-						FileUtil.createOutput(oieSub,
-								revProps.get(delimit + oieProp), topkObjects,
-								FileUtil.getYear(oieSub), writer, confidence);
+						if (identifyTimeInstance(oieSub)
+								&& !identifyTimeInstance(oieObj)) {
 
-					} else if (!identifyTimeInstance(oieSub)
-							&& identifyTimeInstance(oieObj)) {
+							// add the unique line to dictionary
 
-						// get top-k candidates of the subject
-						topkSubjects = findTopKMatches(oieSub, TOP_K_CANDIDATES);
+							DICTIONARY.put(cnt, value);
 
-						// write out the time annotated entry
-						FileUtil.createOutput(topkSubjects,
-								revProps.get(delimit + oieProp), oieObj,
-								FileUtil.getYear(oieObj), writer, confidence);
+							// // get top-k candidates of the subject
+							topkObjects = findTopKMatches(oieObj,
+									TOP_K_CANDIDATES);
+							//
+							// // write out the time annotated entry
+							FileUtil.createOutput(oieSub,
+									revProps.get(delimit + oieProp),
+									topkObjects, FileUtil.getYear(oieSub),
+									writer, confidence, cnt);
 
-						// initially collEct properties with temporal info
-						// if (!temporalPropsKnown)
-						// temporalReverbProps.put(oieProp, "");
+							cnt++;
 
+						} else if (!identifyTimeInstance(oieSub)
+								&& identifyTimeInstance(oieObj)) {
+
+							// add the unique line to dictionary
+							DICTIONARY.put(cnt, value);
+
+							// get top-k candidates of the subject
+							topkSubjects = findTopKMatches(oieSub,
+									TOP_K_CANDIDATES);
+
+							// write out the time annotated entry
+							FileUtil.createOutput(topkSubjects,
+									revProps.get(delimit + oieProp), oieObj,
+									FileUtil.getYear(oieObj), writer,
+									confidence, cnt);
+
+							cnt++;
+
+						}
 					}
 				} else if (relevantReverbProperties
 						.containsKey("NT~" + oieProp)) {
@@ -140,22 +168,35 @@ public class InstanceMapper {
 					if (!identifyTimeInstance(oieSub)
 							&& !identifyTimeInstance(oieObj)) {
 
+						// add the unique line to dictionary
+						DICTIONARY.put(cnt, value);
+
+						// set delimiter
 						delimit = "NT~";
-						// get top-k candidates of the subject
+
+						// // get top-k candidates of the subject
 						topkSubjects = findTopKMatches(oieSub, TOP_K_CANDIDATES);
 						// get top-k candidates of the subject
 						topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
 						// write out the time annotated entry
 						FileUtil.createOutput(topkSubjects,
 								revProps.get(delimit + oieProp), topkObjects,
-								writer, confidence);
+								writer, confidence, cnt);
+
+						cnt++;
 					}
 
 				}
 				if (cnt > 1000000 && cnt % 1000000 == 0) {
 					logger.info("Completed processing of " + cnt + " lines..");
 				}
+
 			}
+
+			for (Entry<Long, String> e : DICTIONARY.entrySet()) {
+				dictWriter.write(e.getKey() + "\t" + e.getValue() + "\n");
+			}
+
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage());
 		} catch (IOException e) {
@@ -164,6 +205,8 @@ public class InstanceMapper {
 			try {
 				DBWrapper.shutDown();
 				writer.close();
+				dictWriter.flush();
+				dictWriter.close();
 			} catch (IOException e) {
 				logger.error(e.getMessage());
 			}
