@@ -83,7 +83,7 @@ public class InstanceMapper {
 			// read from..
 			writer = new BufferedWriter(new FileWriter(new File(
 					ReasoningClient.OIE_FILE_PATH).getParent()
-					+ "/Reverb.annotated.temporal.top"
+					+ "/Reverb.annotated.top"
 					+ TOP_K_CANDIDATES
 					+ ".out"));
 
@@ -95,7 +95,7 @@ public class InstanceMapper {
 
 			logger.info("Writing output at   "
 					+ new File(ReasoningClient.OIE_FILE_PATH).getParent()
-					+ "/Reverb.annotated.temporal.top" + TOP_K_CANDIDATES
+					+ "/Reverb.annotated.top" + TOP_K_CANDIDATES
 					+ ".out");
 
 			// // init DB
@@ -187,7 +187,7 @@ public class InstanceMapper {
 					}
 
 				}
-				if (cnt > 1000000 && cnt % 1000000 == 0) {
+				if (cnt > 1000 && cnt % 1000 == 0) {
 					logger.info("Completed processing of " + cnt + " lines..");
 				}
 
