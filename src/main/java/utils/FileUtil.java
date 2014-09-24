@@ -125,8 +125,8 @@ public class FileUtil {
 						+ "\t"
 						+ df.format(Double.valueOf(candSubj.split("\t")[1])
 								* Double.valueOf(candObj.split("\t")[1]))
-						+ "\t" + "\t" + candSubj.split("\t")[0] + "\t"
-						+ oieProp + "\t" + candObj.split("\t")[0] + "\n");
+						+ "\t" + candSubj.split("\t")[0] + "\t" + oieProp
+						+ "\t" + candObj.split("\t")[0] + "\n");
 			}
 
 			// flush it out

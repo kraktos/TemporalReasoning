@@ -83,9 +83,7 @@ public class InstanceMapper {
 			// read from..
 			writer = new BufferedWriter(new FileWriter(new File(
 					ReasoningClient.OIE_FILE_PATH).getParent()
-					+ "/Reverb.annotated.top"
-					+ TOP_K_CANDIDATES
-					+ ".out"));
+					+ "/Reverb.annotated.top" + TOP_K_CANDIDATES + ".out"));
 
 			dictWriter = new BufferedWriter(new FileWriter(new File(
 					ReasoningClient.OIE_FILE_PATH).getParent()
@@ -95,8 +93,7 @@ public class InstanceMapper {
 
 			logger.info("Writing output at   "
 					+ new File(ReasoningClient.OIE_FILE_PATH).getParent()
-					+ "/Reverb.annotated.top" + TOP_K_CANDIDATES
-					+ ".out");
+					+ "/Reverb.annotated.top" + TOP_K_CANDIDATES + ".out");
 
 			// // init DB
 			DBWrapper.init(Constants.GET_WIKI_LINKS_APRIORI_SQL);
@@ -135,10 +132,15 @@ public class InstanceMapper {
 									TOP_K_CANDIDATES);
 							//
 							// // write out the time annotated entry
-							FileUtil.createOutput(oieSub,
-									revProps.get(delimit + oieProp),
-									topkObjects, FileUtil.getYear(oieSub),
-									writer, confidence, cnt);
+							// FileUtil.createOutput(oieSub,
+							// revProps.get(delimit + oieProp),
+							// topkObjects, FileUtil.getYear(oieSub),
+							// writer, confidence, cnt);
+
+							FileUtil.createOutput(topkObjects,
+									revProps.get(delimit + oieProp), oieSub,
+									FileUtil.getYear(oieSub), writer,
+									confidence, cnt);
 
 							cnt++;
 
@@ -153,6 +155,11 @@ public class InstanceMapper {
 									TOP_K_CANDIDATES);
 
 							// write out the time annotated entry
+							// FileUtil.createOutput(topkSubjects,
+							// revProps.get(delimit + oieProp), oieObj,
+							// FileUtil.getYear(oieObj), writer,
+							// confidence, cnt);
+
 							FileUtil.createOutput(topkSubjects,
 									revProps.get(delimit + oieProp), oieObj,
 									FileUtil.getYear(oieObj), writer,

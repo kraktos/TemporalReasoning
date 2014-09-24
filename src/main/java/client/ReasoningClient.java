@@ -53,7 +53,6 @@ public class ReasoningClient {
 
 			Map<String, String> revbProps	 = InstanceMapper.loadProperties();
 			InstanceMapper.readInputFile(TOP_K_CANDIDATES, revbProps, true);
-
 		}
 	}
 }
