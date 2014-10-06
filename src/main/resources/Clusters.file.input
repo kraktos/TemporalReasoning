@@ -12,6 +12,30 @@ T	opened in	openingYear
 T	opened on	openingYear	
 T	was founded in	foundingDate
 T	was established in	foundingDate
+T	was built in	foundingDate
+T	were built in	foundingDate
+T	were built on	foundingDate
+T	was completely rebuilt in	foundingDate
+T	built in	foundingDate
+T	was originally built in	foundingDate	
 NT	is a proud graduate of	almaMater
 NT	is a graduate of	almaMater
 NT	is a recent graduate of	almaMater
+NT	became an advisor to	influencedBy
+NT	became an assistant to	influencedBy
+NT	became an associate of	influencedBy
+NT	became a pupil of	influencedBy
+NT	was a student of	academicAdvisor
+NT	is a student of	academicAdvisor
+NT	was a pupil of	academicAdvisor
+NT	was the pupil of	academicAdvisor
+NT	became a pupil of	academicAdvisor
+NT	becomes a pupil of	academicAdvisor
+NT	becomes the pupil of	academicAdvisor
+NT	is the pupil of	academicAdvisor
+NT	was a student of	academicAdvisor
+NT	was originally a student of	academicAdvisor
+NT	was student of	academicAdvisor
+NT	was student to	academicAdvisor
+NT	was the most famous student of	academicAdvisor
+NT	was the student of	academicAdvisor
