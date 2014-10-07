@@ -21,6 +21,35 @@ T	was originally built in	foundingDate
 NT	is a proud graduate of	almaMater
 NT	is a graduate of	almaMater
 NT	is a recent graduate of	almaMater
+NT	studied at	almaMater
+NT	had studied at	almaMater
+NT	has studied at	almaMater
+NT	also studied at	almaMater
+NT	had also studied at	almaMater
+NT	also studied at	almaMater
+NT	are studied at	almaMater
+NT	can also be studied at	almaMater
+NT	can be studied at	almaMater
+NT	first studied at	almaMater
+NT	had also studied at	almaMater
+NT	had studied at	almaMater
+NT	has also studied at	almaMater
+NT	has been studied at	almaMater
+NT	has studied at	almaMater
+NT	have also studied at	almaMater
+NT	have studied at	almaMater
+NT	initially studied at	almaMater
+NT	is also studied at	almaMater
+NT	is studied at	almaMater
+NT	later studied at	almaMater
+NT	studied at	almaMater
+NT	then studied at	almaMater
+NT	was also studied at	almaMater
+NT	was studied at	almaMater
+NT	were also studied at	almaMater
+NT	were studied at	almaMater
+NT	will be studied at	almaMater
+NT	influenced by	influencedBy
 NT	became an advisor to	influencedBy
 NT	became an assistant to	influencedBy
 NT	became an associate of	influencedBy
@@ -39,3 +68,415 @@ NT	was student of	academicAdvisor
 NT	was student to	academicAdvisor
 NT	was the most famous student of	academicAdvisor
 NT	was the student of	academicAdvisor
+NT	am a student at	almaMater
+NT	am student at	almaMater
+NT	became a student at	almaMater
+NT	had been a student at	almaMater
+NT	has been a student at	almaMater
+NT	is a college student at	almaMater
+NT	is a computer science graduate student at	almaMater
+NT	is a Computer Science graduate student at	almaMater
+NT	is a current student at	almaMater
+NT	is a dental student at	almaMater
+NT	is a doctoral student at	almaMater
+NT	is a fifth grade student at	almaMater
+NT	is a film student at	almaMater
+NT	is a final year student at	almaMater
+NT	is a first year graduate student at	almaMater
+NT	is a first-year graduate student at	almaMater
+NT	is a first year law student at	almaMater
+NT	is a first-year law student at	almaMater
+NT	is a first-year MBA student at	almaMater
+NT	is a first year medical student at	almaMater
+NT	is a first-year medical student at	almaMater
+NT	is a first year student at	almaMater
+NT	is a first-year student at	almaMater
+NT	is a former student at	almaMater
+NT	is a fourth year graduate student at	almaMater
+NT	is a fourth year medical student at	almaMater
+NT	is a fourth-year medical student at	almaMater
+NT	is a fourth year student at	almaMater
+NT	is a fourth-year student at	almaMater
+NT	is a full time student at	almaMater
+NT	is a full-time student at	almaMater
+NT	is a good student at	almaMater
+NT	is a grad student at	almaMater
+NT	is a graduate student at	almaMater
+NT	is a Graduate student at	almaMater
+NT	is a high school student at	almaMater
+NT	is a journalism student at	almaMater
+NT	is a law student at	almaMater
+NT	is also a student at	almaMater
+NT	is a MBA student at	almaMater
+NT	is a mechanical engineering student at	almaMater
+NT	is a medical student at	almaMater
+NT	is a MSc student at	almaMater
+NT	is an active student at	almaMater
+NT	is an art student at	almaMater
+NT	is an engineering student at	almaMater
+NT	is an Engineering student at	almaMater
+NT	is a new student at	almaMater
+NT	is an honors student at	almaMater
+NT	is an MBA student at	almaMater
+NT	is an MFA student at	almaMater
+NT	is an outstanding student at	almaMater
+NT	is an undergraduate student at	almaMater
+NT	is an Undergraduate student at	almaMater
+NT	is a nursing student at	almaMater
+NT	is a Nursing student at	almaMater
+NT	is a part-time student at	almaMater
+NT	is a Phd student at	almaMater
+NT	is a Ph.D. student at	almaMater
+NT	is a PhD student at	almaMater
+NT	is a post-graduate student at	almaMater
+NT	is a postgraduate student at	almaMater
+NT	is a Post-Graduate student at	almaMater
+NT	is a pre-med student at	almaMater
+NT	is a rabbinical student at	almaMater
+NT	is a scholarship student at	almaMater
+NT	is a second year graduate student at	almaMater
+NT	is a second-year graduate student at	almaMater
+NT	is a second year law student at	almaMater
+NT	is a second-year law student at	almaMater
+NT	is a second year medical student at	almaMater
+NT	is a second-year medical student at	almaMater
+NT	is a second year student at	almaMater
+NT	is a second-year student at	almaMater
+NT	is a senior honors student at	almaMater
+NT	is a senior student at	almaMater
+NT	is a senior undergraduate student at	almaMater
+NT	is a seventh grade student at	almaMater
+NT	is a seventh-grade student at	almaMater
+NT	is a student at	almaMater
+NT	is a third grade student at	almaMater
+NT	is a third year doctoral student at	almaMater
+NT	is a third year law student at	almaMater
+NT	is a third-year law student at	almaMater
+NT	is a third-year medical student at	almaMater
+NT	is a third year student at	almaMater
+NT	is a third-year student at	almaMater
+NT	is currently a doctoral student at	almaMater
+NT	is currently a first year law student at	almaMater
+NT	is currently a first-year MBA student at	almaMater
+NT	is currently a first year student at	almaMater
+NT	is currently a full time student at	almaMater
+NT	is currently a full-time student at	almaMater
+NT	is currently a graduate student at	almaMater
+NT	is currently a law student at	almaMater
+NT	is currently a medical student at	almaMater
+NT	is currently an MBA student at	almaMater
+NT	is currently an undergraduate student at	almaMater
+NT	is currently a Ph.D. student at	almaMater
+NT	is currently a PhD student at	almaMater
+NT	is currently a second year law student at	almaMater
+NT	is currently a second year medical student at	almaMater
+NT	is currently a second years law student at	almaMater
+NT	is currently a second year student at	almaMater
+NT	is currently a student at	almaMater
+NT	is currently a third-year law student at	almaMater
+NT	is currently a third-year student at	almaMater
+NT	is doctoral student at	almaMater
+NT	is graduate student at	almaMater
+NT	is my student at	almaMater
+NT	is not a student at	almaMater
+NT	is now a doctoral student at	almaMater
+NT	is now a graduate student at	almaMater
+NT	is now a medical student at	almaMater
+NT	is now a Ph.D. student at	almaMater
+NT	is now a student at	almaMater
+NT	is PhD student at	almaMater
+NT	is presently a student at	almaMater
+NT	is still a student at	almaMater
+NT	is student at	almaMater
+NT	must be a full-time student at	almaMater
+NT	must be a student at	almaMater
+NT	was a college student at	almaMater
+NT	was a computer science graduate student at	almaMater
+NT	was a doctoral student at	almaMater
+NT	was a fellow student at	almaMater
+NT	was a film student at	almaMater
+NT	was a first year student at	almaMater
+NT	was a first-year student at	almaMater
+NT	was a full-time student at	almaMater
+NT	was a good student at	almaMater
+NT	was a grad student at	almaMater
+NT	was a graduate student at	almaMater
+NT	was a high school student at	almaMater
+NT	was a law student at	almaMater
+NT	was also a student at	almaMater
+NT	was a medical student at	almaMater
+NT	was an active student at	almaMater
+NT	was an art student at	almaMater
+NT	was an engineering student at	almaMater
+NT	was an honor roll student at	almaMater
+NT	was an honors student at	almaMater
+NT	was an honor student at	almaMater
+NT	was an outstanding student at	almaMater
+NT	was an undergraduate student at	almaMater
+NT	was a nursing student at	almaMater
+NT	was a part-time student at	almaMater
+NT	was a Ph.D. student at	almaMater
+NT	was a postgraduate student at	almaMater
+NT	was a pre-med student at	almaMater
+NT	was a scholarship student at	almaMater
+NT	was a seventh grade student at	almaMater
+NT	was a student at	almaMater
+NT	was a third-year student at	almaMater
+NT	was currently a student at	almaMater
+NT	was graduate student at	almaMater
+NT	was my student at	almaMater
+NT	was not a student at	almaMater
+NT	was n't a student at	almaMater
+NT	was once a student at	almaMater
+NT	was still a student at	almaMater
+NT	was student at	almaMater
+NT	was then a student at	almaMater
+NT	also was influenced by		influencedBy
+NT	also were influenced by		influencedBy
+NT	are also greatly influenced by		influencedBy
+NT	are also influenced by		influencedBy
+NT	are always influenced by		influencedBy
+NT	are being influenced by		influencedBy
+NT	are both influenced by		influencedBy
+NT	are deeply influenced by		influencedBy
+NT	are definitely influenced by		influencedBy
+NT	are directly influenced by		influencedBy
+NT	are easily influenced by		influencedBy
+NT	are especially influenced by		influencedBy
+NT	are greatly influenced by		influencedBy
+NT	are heavily influenced by		influencedBy
+NT	are highly influenced by		influencedBy
+NT	are hugely influenced by		influencedBy
+NT	are increasingly influenced by		influencedBy
+NT	are influenced by		influencedBy
+NT	are largely influenced by		influencedBy
+NT	are likely influenced by		influencedBy
+NT	are more influenced by		influencedBy
+NT	are most influenced by		influencedBy
+NT	are much influenced by		influencedBy
+NT	are not influenced by		influencedBy
+NT	are not only influenced by		influencedBy
+NT	are n't influenced by		influencedBy
+NT	are often influenced by		influencedBy
+NT	are particularly influenced by		influencedBy
+NT	are powerfully influenced by		influencedBy
+NT	are profoundly influenced by		influencedBy
+NT	are really influenced by		influencedBy
+NT	are significantly influenced by		influencedBy
+NT	are still influenced by		influencedBy
+NT	are strongly influenced by		influencedBy
+NT	are very influenced by		influencedBy
+NT	are very much influenced by		influencedBy
+NT	be influenced by		influencedBy
+NT	can also be influenced by		influencedBy
+NT	can be influenced by		influencedBy
+NT	cannot be influenced by		influencedBy
+NT	get influenced by		influencedBy
+NT	gets influenced by		influencedBy
+NT	had been heavily influenced by		influencedBy
+NT	had been influenced by		influencedBy
+NT	has also been influenced by		influencedBy
+NT	has always been influenced by		influencedBy
+NT	has always being influenced by		influencedBy
+NT	has been deeply influenced by		influencedBy
+NT	has been greatly influenced by		influencedBy
+NT	has been heavily influenced by		influencedBy
+NT	has been influenced by		influencedBy
+NT	has been profoundly influenced by		influencedBy
+NT	has been strongly influenced by		influencedBy
+NT	has long been influenced by		influencedBy
+NT	have also been influenced by		influencedBy
+NT	have always been influenced by		influencedBy
+NT	have been deeply influenced by		influencedBy
+NT	have been greatly influenced by		influencedBy
+NT	have been heavily influenced by		influencedBy
+NT	have been influenced by		influencedBy
+NT	have been profoundly influenced by		influencedBy
+NT	have been strongly influenced by		influencedBy
+NT	have long been influenced by		influencedBy
+NT	influenced by		influencedBy
+NT	is also greatly influenced by		influencedBy
+NT	is also heavily influenced by		influencedBy
+NT	is also highly influenced by		influencedBy
+NT	is also influenced by		influencedBy
+NT	is also strongly influenced by		influencedBy
+NT	is always influenced by		influencedBy
+NT	is being influenced by		influencedBy
+NT	is clearly influenced by		influencedBy
+NT	is deeply influenced by		influencedBy
+NT	is definitely influenced by		influencedBy
+NT	is directly influenced by		influencedBy
+NT	is extremely influenced by		influencedBy
+NT	is greatly influenced by		influencedBy
+NT	is heavily influenced by		influencedBy
+NT	is highly influenced by		influencedBy
+NT	is increasingly influenced by		influencedBy
+NT	is influenced by		influencedBy
+NT	is largely influenced by		influencedBy
+NT	is mainly influenced by		influencedBy
+NT	is more influenced by		influencedBy
+NT	is most influenced by		influencedBy
+NT	is mostly influenced by		influencedBy
+NT	is much influenced by		influencedBy
+NT	is not influenced by		influencedBy
+NT	is n't influenced by		influencedBy
+NT	is obviously influenced by		influencedBy
+NT	is often influenced by		influencedBy
+NT	is particularly influenced by		influencedBy
+NT	is primarily influenced by		influencedBy
+NT	is probably influenced by		influencedBy
+NT	is profoundly influenced by		influencedBy
+NT	is really influenced by		influencedBy
+NT	is significantly influenced by		influencedBy
+NT	is still influenced by		influencedBy
+NT	is strongly influenced by		influencedBy
+NT	is undoubtedly influenced by		influencedBy
+NT	is unduly influenced by		influencedBy
+NT	is very influenced by		influencedBy
+NT	is very much influenced by		influencedBy
+NT	may also be influenced by		influencedBy
+NT	may be influenced by		influencedBy
+NT	may have been influenced by		influencedBy
+NT	should not be influenced by		influencedBy
+NT	s more influenced by		influencedBy
+NT	was also deeply influenced by		influencedBy
+NT	was also greatly influenced by		influencedBy
+NT	was also heavily influenced by		influencedBy
+NT	was also highly influenced by		influencedBy
+NT	was also influenced by		influencedBy
+NT	was also strongly influenced by		influencedBy
+NT	was always influenced by		influencedBy
+NT	was being influenced by		influencedBy
+NT	was both influenced by		influencedBy
+NT	was certainly influenced by		influencedBy
+NT	was clearly influenced by		influencedBy
+NT	was deeply influenced by		influencedBy
+NT	was definitely influenced by		influencedBy
+NT	was especially influenced by		influencedBy
+NT	was extremely influenced by		influencedBy
+NT	was greatly influenced by		influencedBy
+NT	WAS greatly influenced by		influencedBy
+NT	was heavily influenced by		influencedBy
+NT	was highly influenced by		influencedBy
+NT	was hugely influenced by		influencedBy
+NT	was influenced by		influencedBy
+NT	was largely influenced by		influencedBy
+NT	was less influenced by		influencedBy
+NT	was mainly influenced by		influencedBy
+NT	was most influenced by		influencedBy
+NT	was much influenced by		influencedBy
+NT	was not influenced by		influencedBy
+NT	was not only influenced by		influencedBy
+NT	was not significantly influenced by		influencedBy
+NT	was obviously influenced by		influencedBy
+NT	was often influenced by		influencedBy
+NT	was particularly influenced by		influencedBy
+NT	was powerfully influenced by		influencedBy
+NT	was probably influenced by		influencedBy
+NT	was profoundly influenced by		influencedBy
+NT	was really influenced by		influencedBy
+NT	was significantly influenced by		influencedBy
+NT	was strongly influenced by		influencedBy
+NT	was undoubtedly influenced by		influencedBy
+NT	was very influenced by		influencedBy
+NT	was very much influenced by		influencedBy
+NT	were also greatly influenced by		influencedBy
+NT	were also heavily influenced by		influencedBy
+NT	were also influenced by		influencedBy
+NT	were deeply influenced by		influencedBy
+NT	were directly influenced by		influencedBy
+NT	were greatly influenced by		influencedBy
+NT	were heavily influenced by		influencedBy
+NT	were influenced by		influencedBy
+NT	were largely influenced by		influencedBy
+NT	were most influenced by		influencedBy
+NT	were mostly influenced by		influencedBy
+NT	were not influenced by		influencedBy
+NT	were not significantly influenced by		influencedBy
+NT	were obviously influenced by		influencedBy
+NT	were often influenced by		influencedBy
+NT	were powerfully influenced by		influencedBy
+NT	were strongly influenced by		influencedBy
+NT	will be influenced by		influencedBy
+NT	became advisor to	academicAdvisor_INV
+NT	became an advisor to	academicAdvisor_INV
+NT	become an advisor to	academicAdvisor_INV
+NT	becomes advisor to	academicAdvisor_INV
+NT	becomes special advisor to	academicAdvisor_INV
+NT	had been an advisor to	academicAdvisor_INV
+NT	has been advisor to	academicAdvisor_INV
+NT	has been an advisor to	academicAdvisor_INV
+NT	has been a senior advisor to	academicAdvisor_INV
+NT	is a close advisor to	academicAdvisor_INV
+NT	is advisor to	academicAdvisor_INV
+NT	is a financial advisor to	academicAdvisor_INV
+NT	is a former advisor to	academicAdvisor_INV
+NT	is a frequent advisor to	academicAdvisor_INV
+NT	is a key advisor to	academicAdvisor_INV
+NT	is also advisor to	academicAdvisor_INV
+NT	is also an advisor to	academicAdvisor_INV
+NT	is also a senior advisor to	academicAdvisor_INV
+NT	is also faculty advisor to	academicAdvisor_INV
+NT	is also the advisor to	academicAdvisor_INV
+NT	is also the legal advisor to	academicAdvisor_INV
+NT	is an advisor to	academicAdvisor_INV
+NT	is an economic advisor to	academicAdvisor_INV
+NT	is a personal advisor to	academicAdvisor_INV
+NT	is a policy advisor to	academicAdvisor_INV
+NT	is a political advisor to	academicAdvisor_INV
+NT	is a principal advisor to	academicAdvisor_INV
+NT	is a scientific advisor to	academicAdvisor_INV
+NT	is a senior advisor to	academicAdvisor_INV
+NT	is a senior policy advisor to	academicAdvisor_INV
+NT	is a special advisor to	academicAdvisor_INV
+NT	is a strategic advisor to	academicAdvisor_INV
+NT	is a technical advisor to	academicAdvisor_INV
+NT	is a trusted advisor to	academicAdvisor_INV
+NT	is currently an advisor to	academicAdvisor_INV
+NT	is currently senior advisor to	academicAdvisor_INV
+NT	is faculty advisor to	academicAdvisor_INV
+NT	is financial advisor to	academicAdvisor_INV
+NT	is legal advisor to	academicAdvisor_INV
+NT	is not an advisor to	academicAdvisor_INV
+NT	is now an advisor to	academicAdvisor_INV
+NT	is n't an advisor to	academicAdvisor_INV
+NT	is senior advisor to	academicAdvisor_INV
+NT	is special advisor to	academicAdvisor_INV
+NT	is the advisor to	academicAdvisor_INV
+NT	is the chief legal advisor to	academicAdvisor_INV
+NT	is the faculty advisor to	academicAdvisor_INV
+NT	is the financial advisor to	academicAdvisor_INV
+NT	is the investment advisor to	academicAdvisor_INV
+NT	is the legal advisor to	academicAdvisor_INV
+NT	is the principal advisor to	academicAdvisor_INV
+NT	is the principal legal advisor to	academicAdvisor_INV
+NT	is the principal military advisor to	academicAdvisor_INV
+NT	is the special advisor to	academicAdvisor_INV
+NT	trusted advisor to	academicAdvisor_INV
+NT	was a close advisor to	academicAdvisor_INV
+NT	was advisor to	academicAdvisor_INV
+NT	was a financial advisor to	academicAdvisor_INV
+NT	was a key advisor to	academicAdvisor_INV
+NT	was a legal advisor to	academicAdvisor_INV
+NT	was also an advisor to	academicAdvisor_INV
+NT	was also a senior advisor to	academicAdvisor_INV
+NT	was also faculty advisor to	academicAdvisor_INV
+NT	was an advisor to	academicAdvisor_INV
+NT	was an economic advisor to	academicAdvisor_INV
+NT	was a political advisor to	academicAdvisor_INV
+NT	was a scientific advisor to	academicAdvisor_INV
+NT	was a senior advisor to	academicAdvisor_INV
+NT	was a senior policy advisor to	academicAdvisor_INV
+NT	was a special advisor to	academicAdvisor_INV
+NT	was a trusted advisor to	academicAdvisor_INV
+NT	was now an advisor to	academicAdvisor_INV
+NT	was senior advisor to	academicAdvisor_INV
+NT	was special advisor to	academicAdvisor_INV
+NT	was the advisor to	academicAdvisor_INV
+NT	was the financial advisor to	academicAdvisor_INV
+NT	was the principal advisor to	academicAdvisor_INV
+NT	was the principal military advisor to	academicAdvisor_INV
+NT	was the special advisor to	academicAdvisor_INV
+NT	influenced on	influencedBy_INV
+NT	is influenced on	influencedBy_INV
+NT	was influenced on	influencedBy_INV

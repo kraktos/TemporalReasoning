@@ -17,6 +17,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import utils.Constants;
@@ -32,6 +33,8 @@ import dbConnectivity.DBWrapper;
  */
 public class InstanceMapper {
 
+	private static final String SEPARATOR = "~";
+
 	private static final int TOPK_REV_PROPS = 500;
 
 	// define Logger
@@ -39,6 +42,8 @@ public class InstanceMapper {
 
 	private static Map<String, String> temporalReverbProps = new HashMap<String, String>();
 	private static Map<String, String> revProps = new HashMap<String, String>();
+
+	private static String dbpProp;
 
 	/**
 	 * 
@@ -63,6 +68,7 @@ public class InstanceMapper {
 		String oieProp = null;
 		String oieObj = null;
 		double confidence = 0;
+		String prop;
 
 		Map<Long, String> DICTIONARY = new HashMap<Long, String>();
 
@@ -83,23 +89,26 @@ public class InstanceMapper {
 			// read from..
 			writer = new BufferedWriter(new FileWriter(new File(
 					ReasoningClient.OIE_FILE_PATH).getParent()
-					+ "/Reverb.annotated.top" + TOP_K_CANDIDATES + ".out"));
+					+ "/2.Reverb.annotated.top" + TOP_K_CANDIDATES + ".out"));
 
 			dictWriter = new BufferedWriter(new FileWriter(new File(
 					ReasoningClient.OIE_FILE_PATH).getParent()
-					+ "/Reverb.annotated.dictionary.top."
+					+ "/2.Reverb.annotated.dictionary.top."
 					+ TOP_K_CANDIDATES
 					+ ".out"));
 
 			logger.info("Writing output at   "
 					+ new File(ReasoningClient.OIE_FILE_PATH).getParent()
-					+ "/Reverb.annotated.top" + TOP_K_CANDIDATES + ".out");
+					+ "/2.Reverb.annotated.top" + TOP_K_CANDIDATES + ".out");
 
 			// // init DB
 			DBWrapper.init(Constants.GET_WIKI_LINKS_APRIORI_SQL);
 
 			while (oieTriples.hasNextLine()) {
 				line = oieTriples.nextLine();
+				if(line.indexOf("building owners") != -1)
+					System.out.println();
+				
 				arr = line.split(ReasoningClient.DELIMITER);
 				oieSub = FileUtil.cleanse(arr[0]);
 				oieProp = arr[1];
@@ -114,6 +123,7 @@ public class InstanceMapper {
 				// if its a temporal property
 				if (relevantReverbProperties.containsKey("T~" + oieProp)) {
 
+					// relevantReverbProperties.containsKey("T~" + oieProp)
 					// add the unique line to dictionary
 					if (!DICTIONARY.containsKey(cnt)) {
 
@@ -186,9 +196,20 @@ public class InstanceMapper {
 						// get top-k candidates of the subject
 						topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
 						// write out the time annotated entry
-						FileUtil.createOutput(topkSubjects,
-								revProps.get(delimit + oieProp), topkObjects,
-								writer, confidence, cnt);
+
+						if (revProps.get(delimit + oieProp).indexOf("_INV") == -1) {
+							prop = revProps.get(delimit + oieProp);
+							FileUtil.createOutput(topkSubjects, prop,
+									topkObjects, writer, confidence, cnt);
+
+						} else {
+							prop = StringUtils
+									.replace(revProps.get(delimit + oieProp),
+											"_INV", "");
+
+							FileUtil.createOutput(topkObjects, prop,
+									topkSubjects, writer, confidence, cnt);
+						}
 
 						cnt++;
 					}
@@ -220,40 +241,45 @@ public class InstanceMapper {
 		}
 	}
 
-	/**
-	 * load the clustered reverb properties in memory
-	 * 
-	 * @return
-	 * @throws FileNotFoundException
-	 */
-	// public static Map<String, String> loadProperties()
-	// throws FileNotFoundException {
-	//
-	// String[] arr = null;
-	// String line = null;
-	// String key = null;
-	//
-	// Scanner clusters = new Scanner(new FileInputStream(
-	// ReasoningClient.CLUSTERED_PROPERTIES_FILE_PATH));
-	//
-	// while (clusters.hasNextLine()) {
-	// line = clusters.nextLine();
-	// arr = line.split("\t");
-	// for (String prop : arr) {
-	// if (prop.indexOf(" ") == -1) {
-	// key = prop;
-	// break;
-	// }
-	// }
-	//
-	// for (String prop : arr) {
-	// if (prop.indexOf(" ") != -1)
-	// revProps.put(prop, (key == null) ? prop : key);
-	// }
-	// }
-	//
-	// return revProps;
-	// }
+	private static boolean isValidTemporalPropPattern(String oieProp,
+			Map<String, String> relevantReverbProperties) {
+
+		String pattern = null;
+		String temporalIdentifier = null;
+
+		for (Map.Entry<String, String> entry : relevantReverbProperties
+				.entrySet()) {
+
+			temporalIdentifier = entry.getKey().split(SEPARATOR)[0];
+			pattern = " " + entry.getKey().split(SEPARATOR)[1] + " ";
+
+			dbpProp = entry.getValue();
+			if (StringUtils.containsIgnoreCase(oieProp, pattern)
+					&& temporalIdentifier.equals("T"))
+				return true;
+		}
+		return false;
+	}
+
+	private static boolean isValidNonTemporalPropPattern(String oieProp,
+			Map<String, String> relevantReverbProperties) {
+
+		String pattern = null;
+		String temporalIdentifier = null;
+
+		for (Map.Entry<String, String> entry : relevantReverbProperties
+				.entrySet()) {
+
+			temporalIdentifier = entry.getKey().split(SEPARATOR)[0];
+			pattern = " " + entry.getKey().split(SEPARATOR)[1] + " ";
+
+			dbpProp = entry.getValue();
+			if (StringUtils.containsIgnoreCase(oieProp, pattern)
+					&& temporalIdentifier.equals("NT"))
+				return true;
+		}
+		return false;
+	}
 
 	/**
 	 * load the clustered reverb properties in memory
@@ -274,7 +300,7 @@ public class InstanceMapper {
 		while (clusters.hasNextLine()) {
 			line = clusters.nextLine();
 			arr = line.split("\t");
-			revProps.put(arr[0] + "~" + arr[1], arr[2]);
+			revProps.put(arr[0] + SEPARATOR + arr[1], arr[2]);
 		}
 		return revProps;
 	}

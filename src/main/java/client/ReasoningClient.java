@@ -49,7 +49,7 @@ public class ReasoningClient {
 			TOP_K_CANDIDATES = Integer.parseInt(args[2]);
 			DELIMITER = args[3];
 
-			logger.info("Reading OIE file f	rom " + OIE_FILE_PATH);
+			logger.info("Reading OIE file from " + OIE_FILE_PATH);
 
 			Map<String, String> revbProps	 = InstanceMapper.loadProperties();
 			InstanceMapper.readInputFile(TOP_K_CANDIDATES, revbProps, true);
