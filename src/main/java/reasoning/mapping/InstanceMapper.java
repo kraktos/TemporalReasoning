@@ -3,12 +3,15 @@
  */
 package reasoning.mapping;
 
+import gnu.trove.map.hash.THashMap;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +20,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+
+import com.mysql.fabric.xmlrpc.base.Array;
 
 import utils.Constants;
 import utils.FileUtil;
@@ -43,6 +49,9 @@ public class InstanceMapper {
 	private static Map<String, String> temporalReverbProps = new HashMap<String, String>();
 	private static Map<String, String> revProps = new HashMap<String, String>();
 
+	private static THashMap<String, String> T_CACHE = new THashMap<String, String>();
+	private static THashMap<String, String> NT_CACHE = new THashMap<String, String>();
+
 	private static String dbpProp;
 
 	/**
@@ -62,7 +71,7 @@ public class InstanceMapper {
 			Map<String, String> relevantReverbProperties,
 			boolean temporalPropsKnown) {
 
-		String line = null;
+		// String line = null;
 		String[] arr = null;
 		String oieSub = null;
 		String oieProp = null;
@@ -79,6 +88,7 @@ public class InstanceMapper {
 		BufferedWriter dictWriter = null;
 
 		long cnt = 1;
+		long c = 1;
 
 		try {
 			@SuppressWarnings("resource")
@@ -104,11 +114,17 @@ public class InstanceMapper {
 			// // init DB
 			DBWrapper.init(Constants.GET_WIKI_LINKS_APRIORI_SQL);
 
-			while (oieTriples.hasNextLine()) {
-				line = oieTriples.nextLine();
-				if(line.indexOf("building owners") != -1)
+			List<String> s = FileUtils.readLines(new File(
+					ReasoningClient.OIE_FILE_PATH));
+
+			logger.info("" + s.size());
+			for (String line : s) {
+				c++;
+				// line = oieTriples.nextLine();
+
+				if (line.indexOf("Hindu College") != -1)
 					System.out.println();
-				
+
 				arr = line.split(ReasoningClient.DELIMITER);
 				oieSub = FileUtil.cleanse(arr[0]);
 				oieProp = arr[1];
@@ -121,7 +137,10 @@ public class InstanceMapper {
 
 				// only if the reverb property is a top-k property
 				// if its a temporal property
-				if (relevantReverbProperties.containsKey("T~" + oieProp)) {
+				if (isValidTemporalPropPattern(oieProp,
+						relevantReverbProperties)) {
+					// if (relevantReverbProperties.containsKey("T~" + oieProp))
+					// {
 
 					// relevantReverbProperties.containsKey("T~" + oieProp)
 					// add the unique line to dictionary
@@ -140,18 +159,11 @@ public class InstanceMapper {
 							// // get top-k candidates of the subject
 							topkObjects = findTopKMatches(oieObj,
 									TOP_K_CANDIDATES);
-							//
-							// // write out the time annotated entry
-							// FileUtil.createOutput(oieSub,
-							// revProps.get(delimit + oieProp),
-							// topkObjects, FileUtil.getYear(oieSub),
-							// writer, confidence, cnt);
 
 							FileUtil.createOutput(topkObjects,
-									revProps.get(delimit + oieProp), oieSub,
+									T_CACHE.get(oieProp), oieSub,
 									FileUtil.getYear(oieSub), writer,
 									confidence, cnt);
-
 							cnt++;
 
 						} else if (!identifyTimeInstance(oieSub)
@@ -164,14 +176,8 @@ public class InstanceMapper {
 							topkSubjects = findTopKMatches(oieSub,
 									TOP_K_CANDIDATES);
 
-							// write out the time annotated entry
-							// FileUtil.createOutput(topkSubjects,
-							// revProps.get(delimit + oieProp), oieObj,
-							// FileUtil.getYear(oieObj), writer,
-							// confidence, cnt);
-
 							FileUtil.createOutput(topkSubjects,
-									revProps.get(delimit + oieProp), oieObj,
+									T_CACHE.get(oieProp), oieObj,
 									FileUtil.getYear(oieObj), writer,
 									confidence, cnt);
 
@@ -179,8 +185,8 @@ public class InstanceMapper {
 
 						}
 					}
-				} else if (relevantReverbProperties
-						.containsKey("NT~" + oieProp)) {
+				} else if (isValidNonTemporalPropPattern(oieProp,
+						relevantReverbProperties)) {
 
 					if (!identifyTimeInstance(oieSub)
 							&& !identifyTimeInstance(oieObj)) {
@@ -197,27 +203,24 @@ public class InstanceMapper {
 						topkObjects = findTopKMatches(oieObj, TOP_K_CANDIDATES);
 						// write out the time annotated entry
 
-						if (revProps.get(delimit + oieProp).indexOf("_INV") == -1) {
-							prop = revProps.get(delimit + oieProp);
+						if (dbpProp.indexOf("_INV") == -1) {
+							prop = NT_CACHE.get(oieProp);
 							FileUtil.createOutput(topkSubjects, prop,
 									topkObjects, writer, confidence, cnt);
-
 						} else {
-							prop = StringUtils
-									.replace(revProps.get(delimit + oieProp),
-											"_INV", "");
-
+							prop = StringUtils.replace(NT_CACHE.get(oieProp),
+									"_INV", "");
 							FileUtil.createOutput(topkObjects, prop,
 									topkSubjects, writer, confidence, cnt);
 						}
 
 						cnt++;
 					}
+				}
 
-				}
-				if (cnt > 1000 && cnt % 1000 == 0) {
-					logger.info("Completed processing of " + cnt + " lines..");
-				}
+				if (c > 100000 && c % 100000 == 0)
+					logger.info("Completed processing of " + (double) 100 * c
+							/ s.size() + " percent..");
 
 			}
 
@@ -247,16 +250,24 @@ public class InstanceMapper {
 		String pattern = null;
 		String temporalIdentifier = null;
 
-		for (Map.Entry<String, String> entry : relevantReverbProperties
-				.entrySet()) {
+		if (T_CACHE.containsKey(oieProp)) {
+			dbpProp = T_CACHE.get(oieProp);
+			return true;
+		} else {
+			for (Map.Entry<String, String> entry : relevantReverbProperties
+					.entrySet()) {
 
-			temporalIdentifier = entry.getKey().split(SEPARATOR)[0];
-			pattern = " " + entry.getKey().split(SEPARATOR)[1] + " ";
+				temporalIdentifier = entry.getKey().split(SEPARATOR)[0];
+				pattern = entry.getKey().split(SEPARATOR)[1];
 
-			dbpProp = entry.getValue();
-			if (StringUtils.containsIgnoreCase(oieProp, pattern)
-					&& temporalIdentifier.equals("T"))
-				return true;
+				dbpProp = entry.getValue();
+				if (StringUtils.containsIgnoreCase(oieProp, pattern)
+						&& temporalIdentifier.equals("T")) {
+
+					T_CACHE.put(oieProp, dbpProp);
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -267,16 +278,24 @@ public class InstanceMapper {
 		String pattern = null;
 		String temporalIdentifier = null;
 
-		for (Map.Entry<String, String> entry : relevantReverbProperties
-				.entrySet()) {
+		if (NT_CACHE.containsKey(oieProp)) {
+			dbpProp = NT_CACHE.get(oieProp);
+			return true;
+		} else {
 
-			temporalIdentifier = entry.getKey().split(SEPARATOR)[0];
-			pattern = " " + entry.getKey().split(SEPARATOR)[1] + " ";
+			for (Map.Entry<String, String> entry : relevantReverbProperties
+					.entrySet()) {
 
-			dbpProp = entry.getValue();
-			if (StringUtils.containsIgnoreCase(oieProp, pattern)
-					&& temporalIdentifier.equals("NT"))
-				return true;
+				temporalIdentifier = entry.getKey().split(SEPARATOR)[0];
+				pattern = entry.getKey().split(SEPARATOR)[1];
+
+				dbpProp = entry.getValue();
+				if (StringUtils.containsIgnoreCase(oieProp, pattern)
+						&& temporalIdentifier.equals("NT")) {
+					NT_CACHE.put(oieProp, dbpProp);
+					return true;
+				}
+			}
 		}
 		return false;
 	}
