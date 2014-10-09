@@ -13,20 +13,20 @@ public class Wrapper {
 
 		ReasoningClient
 				.main(new String[] {
-						"/home/adutta/git/TemporalReasoning/src/main/resources/ReverbFilter.csv",
-						"/home/adutta/git/TemporalReasoning/src/main/resources/Dates",
+						"src/main/resources/ReverbFilter.csv",
+						"src/main/resources/Dates",
 						"15", ";" });
 
 		ReasoningClient
 				.main(new String[] {
-						"/home/adutta/git/TemporalReasoning/src/main/resources/ReverbFilter.csv",
-						"/home/adutta/git/TemporalReasoning/src/main/resources/Dates",
+						"src/main/resources/ReverbFilter.csv",
+						"src/main/resources/Dates",
 						"5", ";" });
 
 		ReasoningClient
 				.main(new String[] {
-						"/home/adutta/git/TemporalReasoning/src/main/resources/ReverbFilter.csv",
-						"/home/adutta/git/TemporalReasoning/src/main/resources/Dates",
+						"src/main/resources/ReverbFilter.csv",
+						"src/main/resources/Dates",
 						"10", ";" });
 	}
 
